@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adjective Formation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 750px;
+            width: 100%;
+        }
+        h2 { color: #2c3e50; margin-bottom: 10px; }
+        .instruction { color: #666; margin-bottom: 30px; font-style: italic; }
+        
+        .q-block { margin-bottom: 20px; font-size: 1.05rem; line-height: 2.2; }
+        
+        input[type="text"] {
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 4px 8px;
+            border: none;
+            border-bottom: 2px dashed #999;
+            background-color: #fafafa;
+            color: #2980b9;
+            text-align: center;
+            transition: all 0.3s;
+            border-radius: 4px 4px 0 0;
+            width: 120px;
+        }
+        input[type="text"]:focus { outline: none; border-bottom: 2px solid #2196F3; background-color: #e3f2fd; }
+        
+        .hint { color: #777; font-style: italic; font-size: 0.95rem; margin-left: 5px; }
+        
+        /* Feedback */
+        input.correct { border-bottom: 2px solid #4CAF50; background-color: #e8f5e9; color: #2e7d32; font-weight: bold; }
+        input.incorrect { border-bottom: 2px solid #f44336; background-color: #ffebee; color: #c62828; text-decoration: line-through; }
+        
+        .controls { display: flex; gap: 15px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+        button {
+            flex: 1; padding: 12px; font-size: 16px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s;
+        }
+        #check-btn { background-color: #4CAF50; color: white; }
+        #check-btn:hover { background-color: #45a049; }
+        #reset-btn { background-color: #f0f0f0; color: #555; }
+        #reset-btn:hover { background-color: #e0e0e0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Form the Adjective</h2>
+        <p class="instruction">Type the correct adjective form of the word in brackets to complete the sentence.</p>
+
+        <div class="q-block">1. Be careful with that glass vase; it is very <input type="text" data-answer="breakable" placeholder="..."> <span class="hint">(break)</span>.</div>
+        <div class="q-block">2. The teacher was very <input type="text" data-answer="helpful" placeholder="..."> <span class="hint">(help)</span> when I didn't understand the homework.</div>
+        <div class="q-block">3. He has a very <input type="text" data-answer="creative" placeholder="..."> <span class="hint">(create)</span> mind and always paints unique pictures.</div>
+        <div class="q-block">4. It was a <input type="text" data-answer="furious" placeholder="..."> <span class="hint">(fury)</span> storm that knocked down several trees.</div>
+        <div class="q-block">5. Don't be so <input type="text" data-answer="selfish" placeholder="..."> <span class="hint">(self)</span>; you need to think about other people's feelings!</div>
+        <div class="q-block">6. The instructions were completely <input type="text" style="width: 100px;" data-answer="nonsensical|senseless" placeholder="..."> <span class="hint">(sense)</span>, so we got lost.</div>
+        <div class="q-block">7. She always tells the truth; she is a very <input type="text" data-answer="reliable" placeholder="..."> <span class="hint">(rely)</span> person.</div>
+        <div class="q-block">8. His behavior was very <input type="text" data-answer="childish" placeholder="..."> <span class="hint">(child)</span>; he needs to grow up.</div>
+        <div class="q-block">9. I am absolutely <input type="text" data-answer="exhausted" placeholder="..."> <span class="hint">(exhaust)</span> after that long run.</div>
+        <div class="q-block">10. The magic trick was truly <input type="text" data-answer="magical" placeholder="..."> <span class="hint">(magic)</span>.</div>
+
+        <div class="controls">
+            <button id="check-btn">Check Answers</button>
+            <button id="reset-btn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input[type="text"]');
+        
+        document.getElementById('check-btn').addEventListener('click', () => {
+            inputs.forEach(input => {
+                const userAnswer = input.value.trim().toLowerCase();
+                const acceptable = input.getAttribute('data-answer').split('|');
+                
+                if (userAnswer === '') {
+                    input.classList.remove('correct', 'incorrect');
+                } else if (acceptable.includes(userAnswer)) {
+                    input.classList.remove('incorrect');
+                    input.classList.add('correct');
+                } else {
+                    input.classList.remove('correct');
+                    input.classList.add('incorrect');
+                }
+            });
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+        });
+
+        // Enter key trigger
+        inputs.forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') document.getElementById('check-btn').click();
+            });
+        });
+    </script>
+</body>
+</html>
